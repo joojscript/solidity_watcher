@@ -22,7 +22,6 @@ defmodule SolidityWatcher.MixProject do
   defp package() do
     [
       name: "solidity_watcher",
-      files: ~w(lib deps test _build .formatter.exs mix.exs README*),
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/joojscript/solidity_watcher"}
     ]
