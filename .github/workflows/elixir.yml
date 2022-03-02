@@ -26,7 +26,7 @@ jobs:
         key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
         restore-keys: ${{ runner.os }}-mix-
     - name: Install inotify-tools
-      run: apt-get install inotify-tools
+      run: sudo apt-get install inotify-tools
     - name: Install dependencies
       run: mix deps.get
     - name: Run tests
