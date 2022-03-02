@@ -42,7 +42,23 @@ config :solidity_watcher,
 
 ---
 
-Also, check out our full [Documentation](https://hexdocs.pm/solidity_watcher), which is very tiny, since this watcher is guided to be very simple, but it could be helpful.
+The expected behavior is something like this:
+
+```bash
+==> solidity_watcher
+Compiling 1 file (.ex)
+[info] Running CypherWeb.Endpoint with cowboy 2.9.0 at 127.0.0.1:4000 (http)
+[info] Access CypherWeb.Endpoint at http://localhost:4000
+[info] Compiler run successful. Artifact(s) can be found in directory "solidity_build".
+[watch] build finished, watching for changes...
+
+Rebuilding...
+Done in 206ms.
+<PROJECT-PATH>/contracts/test.sol was updated. Recompiling...
+[info] Compiler run successful. Artifact(s) can be found in directory "solidity_build".
+<PROJECT-PATH>/contracts/test.sol was updated. Recompiling...
+[info] Compiler run successful. Artifact(s) can be found in directory "solidity_build".
+```
 
 ---
 
