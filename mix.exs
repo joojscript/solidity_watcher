@@ -7,7 +7,24 @@ defmodule SolidityWatcher.MixProject do
       version: "0.0.1",
       elixir: ">= 1.13.3",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      name: "Solidity Watcher",
+      source_url: "https://github.com/joojscript/solidity_watcher",
+      description: description(),
+      package: package()
+    ]
+  end
+
+  defp description do
+    "Solidity Watcher is a tiny tool to watch for changes in your Solidity contracts and compile them."
+  end
+
+  defp package() do
+    [
+      name: "solidity_watcher",
+      files: ~w(lib deps test _build .formatter.exs mix.exs README*),
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/joojscript/solidity_watcher"}
     ]
   end
 
