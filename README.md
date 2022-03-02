@@ -44,3 +44,12 @@ config :solidity_watcher,
 
 Also, check out our full [Documentation](https://hexdocs.pm/solidity_watcher), which is very tiny, since this watcher is guided to be very simple, but it could be helpful.
 
+---
+
+⚠️ **Warning**: A known error that might occur, is the following:
+
+```elixir
+[error] backend port not found: :inotifywait
+```
+
+In this case, the probability is that you don't have `inotify-tools` installed, which is a requirement for linux users, se more about that [here](https://github.com/synrc/fs).
