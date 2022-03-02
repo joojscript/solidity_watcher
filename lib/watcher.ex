@@ -60,7 +60,7 @@ defmodule Solidity.Watcher do
 
   defp fetch_body!(url) do
     url = String.to_charlist(url)
-    Logger.debug("Downloading tailwind from #{url}")
+    Logger.debug("Downloading Solidity Compiler from #{url}")
 
     {:ok, _} = Application.ensure_all_started(:inets)
     {:ok, _} = Application.ensure_all_started(:ssl)
@@ -78,12 +78,12 @@ defmodule Solidity.Watcher do
     end
 
     # https://erlef.github.io/security-wg/secure_coding_and_deployment_hardening/inets
-    # cacertfile = CAStore.file_path() |> String.to_charlist()
+    cacertfile = CAStore.file_path() |> String.to_charlist()
 
     http_options = [
       ssl: [
         verify: :verify_peer,
-        # cacertfile: cacertfile,
+        cacertfile: cacertfile,
         depth: 2,
         customize_hostname_check: [
           match_fun: :public_key.pkix_verify_hostname_match_fun(:https)

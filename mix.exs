@@ -21,7 +21,8 @@ defmodule SolidityWatcher.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:fs, "~> 2.12.0"}
+      {:fs, "~> 2.12.0"},
+      {:castore, ">= 0.0.0"}
     ]
   end
 end
