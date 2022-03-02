@@ -1,0 +1,4 @@
+%{
+  "fs": {:hex, :fs, "2.12.0", "ad631efacc9a5683c8eaa1b274e24fa64a1b8eb30747e9595b93bec7e492e25e", [:rebar3], [], "hexpm", "ff6043acf648b2b65026aeab3d32af68d2974d73c5a4c483bbdca60c0072b7e5"},
+  "mix_rebar3": {:hex, :mix_rebar3, "0.2.0", "b33656ef3047f21a19fac3254cb30a1d2c75ea419a3ad28c4b88f42c62a4202d", [:mix], [], "hexpm", "11eabb70c0a7ead9aa3631f048c3d7d5e868172b87b6493d0dc6f6d591c1afae"},
+}
