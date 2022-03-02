@@ -1,10 +1,14 @@
-# SolidityWatcher
+# Solidity Watcher
 
-**TODO: Add description**
+A **very** tiny watcher for **Solidity Compiler** which runs in it own proccess, with ease to use.
+
+### How the watcher works?
+
+It looks into your environment, and try to find any `solc` (the Solidity compiler) and tries to run it, otherwise, it will just install a local copy of the `solc` latest release (or any version you want to specify).
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+The package is [available in Hex](https://hex.pm/docs/publish), and can be installed
 by adding `solidity_watcher` to your list of dependencies in `mix.exs`:
 
 ```elixir
@@ -15,7 +19,28 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/solidity_watcher>.
+## Available Configuration
+
+You can add all of these keys to `config/config.exs`, and the watcher will be set:
+
+```elixir
+# General application configuration
+import Config
+
+# Configures the endpoint
+config :solidity_watcher,
+  contracts_path: "contracts/*.sol", 
+  output_path: "solidity_build",
+  version: "8.0.2",
+  solc_path: "/usr/share/applications/solc" # If already set on PATH, just ignore it.
+```
+
+- **contracts_path:** The path in which the compiler will look for Solidity contracts. Do not forget to add the wildcard (*.sol), or any specific file (test.sol);
+- **output_path**: The path in which the compiler will output the compiled files from Solidity Compiler.
+- **version:** In case the *solc_path* variable isn't set, or can't be found, the watcher will look for the releases from Solidity's Github repo. By default, the latest version, but you can always specify an specific one.
+- **solc_path**: This variable, if set, explicit the path to the solc compiler. If you have it already installed, but not under PATH (if it is already in your path, than the watcher can find it).
+
+---
+
+Also, check out our full [Documentation](https://hexdocs.pm/solidity_watcher), which is very tiny, since this watcher is guided to be very simple, but it could be helpful.
 
