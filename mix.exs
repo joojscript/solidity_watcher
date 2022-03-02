@@ -5,7 +5,7 @@ defmodule SolidityWatcher.MixProject do
     [
       app: :solidity_watcher,
       version: "0.1.0",
-      elixir: "~> 1.13.3",
+      elixir: ">= 1.13.3",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
