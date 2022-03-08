@@ -8,7 +8,7 @@ It looks into your environment, and try to find any `solc` (the Solidity compile
 
 ## Installation
 
-The package is [available in Hex](https://hex.pm/docs/publish), and can be installed
+The package is [available in Hex](https://hex.pm/packages/solidity_watcher/0.0.1), and can be installed
 by adding `solidity_watcher` to your list of dependencies in `mix.exs`:
 
 ```elixir
