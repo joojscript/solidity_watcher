@@ -1,17 +1,31 @@
 defmodule Solidity.Watcher do
-  @otp_app Application.get_application(__MODULE__)
+  @otp_app :solidity_watcher
   @solidity_repo_url "https://github.com/ethereum/solidity"
+
+  @contracts_path Application.compile_env(@otp_app, :contracts_path, "contracts/*.sol")
+  @output_path Application.compile_env(@otp_app, :output_path, "solidity_build")
+  @solidity_version Application.compile_env(@otp_app, :version, "latest")
+  @existing_exec_path System.find_executable("solc")
 
   require Logger
 
+  def install_and_run, do: install_and_run(:default, [])
+
   def install_and_run(profile, args) when is_atom(profile) and is_list(args) do
-    executable_path = System.find_executable("solc")
+    executable_path = @existing_exec_path
 
     if is_nil(executable_path) do
       install()
     end
 
-    :fs.start_link(@otp_app, Application.get_env(@otp_app, :contracts_path, "contracts"))
+    contracts_formatted_path =
+      "/#{Path.absname(@contracts_path) |> String.split("/") |> Enum.drop(-1) |> Enum.drop(1) |> Enum.join("/")}"
+
+    :fs.start_link(
+      @otp_app,
+      contracts_formatted_path
+    )
+
     :fs.subscribe(@otp_app)
 
     run()
@@ -20,16 +34,15 @@ defmodule Solidity.Watcher do
 
   def wait_for_reload do
     receive do
-      {_watcher_process, {:fs, :file_event}, {changedFile, _type}} ->
-        IO.puts("#{changedFile} was updated. Recompiling...")
+      {_watcher_process, {:fs, :file_event}, {changed_file, _type}} ->
+        Logger.info("#{changed_file} was updated. Recompiling...")
         run()
         wait_for_reload()
     end
   end
 
   def run do
-    build_command =
-      "#{bin_path()} --abi --bin --overwrite -o #{output_path()} #{contracts_path()}"
+    build_command = "#{bin_path()} --abi --bin --overwrite -o #{@output_path} #{@contracts_path}"
 
     build_command
     |> System.shell()
@@ -39,16 +52,12 @@ defmodule Solidity.Watcher do
   end
 
   def install do
-    version = solidity_version()
-    distro = :os.type() |> elem(1) |> formatted_distro_name
+    version = @solidity_version
+    distro = :os.type() |> elem(1) |> format_distro_name
 
     {version, distro}
     |> build_download_url
     |> download_release
-  end
-
-  defp solidity_version do
-    Application.get_env(@otp_app, :version, "latest")
   end
 
   defp download_release({_, _, download_url}) do
@@ -106,7 +115,7 @@ defmodule Solidity.Watcher do
     {version, distro, "#{@solidity_repo_url}/releases/#{version}/download/solc-#{distro}"}
   end
 
-  defp formatted_distro_name(distro) do
+  defp format_distro_name(distro) do
     case distro do
       :darwin -> "macos"
       :windows -> "windows.exe"
@@ -115,24 +124,15 @@ defmodule Solidity.Watcher do
     end
   end
 
-  defp bin_path, do: bin_path(solidity_version())
-
-  defp bin_path(version) do
-    name = "solidity-#{version}"
-
-    Application.get_env(@otp_app, :solc_path) ||
+  defp bin_path do
+    Application.get_env(@otp_app, :solc_path) || @existing_exec_path ||
       if Code.ensure_loaded?(Mix.Project) do
-        Path.join(Path.dirname(Mix.Project.build_path()), name)
+        Path.join(
+          Path.dirname(Mix.Project.build_path()),
+          "solidity-#{@solidity_version}"
+        )
       else
-        Path.expand("_build/#{name}")
+        Path.expand("_build/solidity-#{@solidity_version}")
       end
-  end
-
-  defp contracts_path do
-    Application.get_env(@otp_app, :contracts_path, "contracts/*.sol")
-  end
-
-  defp output_path do
-    Application.get_env(@otp_app, :output_path, "solidity_build")
   end
 end

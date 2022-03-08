@@ -1,7 +1,7 @@
-defmodule SolidityWatcherTest do
+defmodule Solidity.WatcherTest do
   use ExUnit.Case
-  doctest SolidityWatcher
-  @otp_app Application.get_application(__MODULE__)
+  doctest Solidity.Watcher
+  @otp_app :solidity_watcher
   import Config
 
   test "installs the solc compiler" do
